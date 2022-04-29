@@ -9,6 +9,9 @@ class UserService {
 
         return userDAO.createUser(username, email, hashedPassword)
     }
+    async getUsers() {
+        return userDAO.getUsers()
+    }
 }
 
 module.exports = new UserService()

@@ -3,19 +3,12 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  return knex.schema.createTable('user', table => {
-        table.increments('id')
-        table.string('username').notNullable()
-        table.string('email').notNullable().unique()
-        table.string('password').notNullable()
-        table.timestamps(true, true)
-    }).createTable('posts', table => {
-        table.increments('id')
-        table.string('title').notNullable()
-        table.string('content').notNullable()
-        table.string('created_by').notNullable()
-        table.timestamps(true, true)
-    })
+  return knex.schema
+    .createTable('user', require('./schemas/user'))
+    .createTable('category', require('./schemas/category'))
+    .createTable('posts', require('./schemas/posts'))
+    .createTable('liked', require('./schemas/likedPosts'))
+    .createTable('comments', require('./schemas/comments'))
 };
 
 /**
@@ -23,5 +16,10 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTable('user')
+  return knex.schema
+  .dropTableIfExists('comments')
+  .dropTableIfExists('liked')
+  .dropTableIfExists('posts')
+  .dropTableIfExists('category')
+  .dropTableIfExists('user')
 };
